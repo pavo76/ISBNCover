@@ -1,0 +1,40 @@
+﻿@model ISBNCover.Models.Knjiga
+@using ISBNCover.Controllers
+@using ISBNCover.ServiceReference1
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Knjiga</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>@Html.DisplayNameFor(model => model.Name)</dt>
+
+        <dd>@Html.DisplayFor(model => model.Name)</dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ISBN)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ISBN)
+        </dd>
+
+        <dt>Slika</dt>
+       @{imgURLSoapClient client = new imgURLSoapClient();
+
+
+           string imgLink = client.ReturnImgURL(Model.ISBN); }
+
+        <dd><img id="slika" src=@imgLink/></dd>
+
+        
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

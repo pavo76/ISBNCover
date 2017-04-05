@@ -1,0 +1,58 @@
+﻿@model IEnumerable<ISBNCover.Models.Knjiga>
+@using ISBNCover.ServiceReference1
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>@Html.DisplayNameFor(model=>model.Name)</th>
+        <th>
+            @Html.DisplayNameFor(model => model.ISBN)
+        </th>
+        <th>Slika</th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>@Html.DisplayFor(modelItem => item.Name)</td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ISBN)
+        </td>
+        @{
+            imgURLSoapClient client = new imgURLSoapClient();
+            
+
+            string imgLink = client.ReturnImgURL(item.ISBN);
+        }
+        <td><img id="slika" src=@imgLink /></td>
+       
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>
+<
+@{
+    if(ViewBag.CurrentPage>0)
+    {
+        String prevPage = String.Format("{0}", ViewBag.CurrentPage - 1);
+        @Html.ActionLink(prevPage, "Index", new { id = ViewBag.CurrentPage - 1 });
+        @:|
+    }
+    
+    String nextPage = String.Format("{0}", ViewBag.CurrentPage + 1);
+    @Html.ActionLink(nextPage, "Index", new { id = ViewBag.CurrentPage + 1 });
+}
+>
